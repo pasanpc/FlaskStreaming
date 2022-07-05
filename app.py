@@ -5,8 +5,11 @@ import cv2
 #Initialize the Flask app
 app=Flask(__name__)
 
-camera = cv2.VideoCapture("http://192.168.8.101:8080/video") #Ip cam
+camera = cv2.VideoCapture("http://192.168.8.100:8686/stream.ogg") #http converted stream
+#camera = cv2.VideoCapture("http://192.168.8.101:8080/video") #Ip cam
+#camera = cv2.VideoCapture("rtsp://192.168.8.101:8080/h264_pcm.sdp") #Ip cam via rtsp
 #camera = cv2.VideoCapture(0) #Web cam
+
 
 #continuously returns frames from the camera as response chunks
 def gen_frames():
