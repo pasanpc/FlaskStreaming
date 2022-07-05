@@ -1,9 +1,14 @@
+#Import necessary libraries
 from flask import Flask, render_template, Response
 import cv2
-app=Flask(__name__)
-camera = cv2.VideoCapture("http://192.168.8.101:8080/video")
-#camera = cv2.VideoCapture(0)
 
+#Initialize the Flask app
+app=Flask(__name__)
+
+camera = cv2.VideoCapture("http://192.168.8.101:8080/video") #Ip cam
+#camera = cv2.VideoCapture(0) #Web cam
+
+#continuously returns frames from the camera as response chunks
 def gen_frames():
     while True:
         success, frame = camera.read()  # read the camera frame
@@ -47,11 +52,16 @@ def gen_frames():
                 #cv2.imshow("Output", img)
                 #cv2.waitKey(1)
 
+#Define app route for default page of the web-app
 @app.route('/')
 def index():
     return render_template('index.html')
+
+#Define app route for the Video feed
 @app.route('/video_feed')
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+#Starting the Flask Server
 if __name__=='__main__':
     app.run(debug=True)
